@@ -7,9 +7,9 @@
 
 <h1>Are you sure you want to delete {{ item.name }}?</h1>
 
-<form action="{{ url_for('show_menu', restaurant_id=restaurant.id) }}" style="display: inline">
-    <input type="submit" value="Yes">
-    <input type="submit" value="No">
+<form action="{{ url_for('delete_menu_item', restaurant_id=restaurant.id, menu_id=item.id) }}" method="POST" style="display: inline">
+    <input type="submit" name='confirmation' value="Yes">
+    <input type="submit" name='confirmation' value="No">
 </form>
 </body>
 </html>

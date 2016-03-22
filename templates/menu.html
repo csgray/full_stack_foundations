@@ -7,6 +7,15 @@
 
 <h1>{{ restaurant.name }}</h1><hr>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <strong>{{ message }}</strong><br>
+            <br>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 {% for i in items %}
 
     {{ i.name }} {{ i.price }}<br>

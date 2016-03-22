@@ -71,7 +71,12 @@ def show_menu(restaurant_id):
 def new_menu_item(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     if request.method == 'POST':
-        pass
+        new_item = MenuItem(name=request.form['name'],price=request.form['price'],course=request.form['course'],
+                            description=request.form['description'], restaurant_id=restaurant.id)
+        session.add(new_item)
+        session.commit()
+        flash("New menu item created!")
+        return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('new_menu_item.html', restaurant=restaurant)
 
@@ -81,7 +86,14 @@ def edit_menu_item(restaurant_id, menu_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     item = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).filter_by(id=menu_id).one()
     if request.method == 'POST':
-        pass
+        item.name=request.form['name']
+        item.price=request.form['price']
+        item.course=request.form['course']
+        item.description=request.form['description']
+        session.add(item)
+        session.commit()
+        flash("Menu item updated!")
+        return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('edit_menu_item.html', restaurant=restaurant, item=item)
 
@@ -91,7 +103,14 @@ def delete_menu_item(restaurant_id, menu_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     item = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).filter_by(id=menu_id).one()
     if request.method == 'POST':
-        pass
+        if request.form['confirmation'] == "Yes":
+            session.delete(item)
+            session.commit()
+            flash("Menu item deleted!")
+            return redirect(url_for('show_menu', restaurant_id=restaurant.id))
+        if request.form['confirmation'] == "No":
+            flash("Deletion cancelled!")
+            return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('delete_menu_item.html', restaurant=restaurant, item=item)
 
