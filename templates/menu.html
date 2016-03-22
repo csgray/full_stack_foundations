@@ -7,7 +7,7 @@
 
 <h1>{{ restaurant.name }}</h1><hr>
 
-{%  for i in items %}
+{% for i in items %}
 
     {{ i.name }} {{ i.price }}<br>
     {{ i.course }}<br>
@@ -16,8 +16,12 @@
     <a href="{{ url_for('delete_menu_item', restaurant_id=restaurant.id, menu_id=i.id) }}">Delete</a><br>
     <br>
 
+{% else %}
+    There are no menu items. Would you like to make one?<br>
+
 {% endfor %}
 
+<br>
 <a href="{{ url_for('new_menu_item', restaurant_id=restaurant.id) }}">Create a new menu item</a><br>
 <a href="{{ url_for('show_restaurant') }}">Back to Restaurants</a>
 
