@@ -7,6 +7,15 @@
 
 <h1>Restaurants</h1>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <strong>{{ message }}</strong><br>
+            <br>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 {% for r in restaurants %}
 
     <a href="{{ url_for('show_menu', restaurant_id=r.id) }}">{{ r.name }}</a><br>

@@ -8,7 +8,7 @@
 <h1>Add a new restaurant</h1>
 
 Name:
-<form>
+<form action="{{ url_for('new_restaurant') }}" method="POST">
     <input type="text" size="30" name="name" placeholder="New Restaurant's Name"><br>
     <input type="submit" value="Create">
 </form>

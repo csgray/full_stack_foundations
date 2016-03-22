@@ -11,9 +11,9 @@
 <h1>Are you sure you want to delete {{ restaurant.name }}?</h1>
 
 <div>
-<form action="{{ url_for('show_restaurant') }}" style="display: inline">
-    <input type="submit" value="Yes">
-    <input type="submit" value="No">
+<form action="{{ url_for('delete_restaurant', restaurant_id=restaurant.id) }}" method="POST" style="display: inline">
+    <input type="submit" name="confirmation" value="Yes">
+    <input type="submit" name="confirmation" value="No">
 </form>
 </div>
 
