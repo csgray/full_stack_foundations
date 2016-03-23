@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, url_for, redirect
+from flask import Flask, render_template, request, flash, url_for, redirect, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
@@ -13,6 +13,7 @@ session = DBSession()
 
 @app.route('/')
 @app.route('/restaurant/')
+@app.route('/restaurants/')
 def show_restaurant():
     restaurants = session.query(Restaurant).all()
     return render_template('restaurant.html', restaurants=restaurants)
@@ -63,7 +64,7 @@ def delete_restaurant(restaurant_id):
 @app.route('/restaurant/<int:restaurant_id>/menu/')
 def show_menu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    items = session.query(MenuItem).filter_by(restaurant_id=restaurant_id)
+    items = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
     return render_template('menu.html', restaurant=restaurant, items=items)
 
 
@@ -113,6 +114,25 @@ def delete_menu_item(restaurant_id, menu_id):
             return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('delete_menu_item.html', restaurant=restaurant, item=item)
+
+
+@app.route('/restaurant/JSON/')
+@app.route('/restaurants/JSON/')
+def restaurants_json():
+    restaurants = session.query(Restaurant).all()
+    return jsonify(Restaurant=[r.serialize for r in restaurants])
+
+@app.route('/restaurant/<int:restaurant_id>/JSON/')
+@app.route('/restaurant/<int:restaurant_id>/menu/JSON/')
+def menu_JSON(restaurant_id):
+    items = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
+    return jsonify(MenuItem=[i.serialize for i in items])
+
+
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/JSON/')
+def item_JSON(restaurant_id, menu_id):
+    item = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).filter_by(id=menu_id).one()
+    return jsonify(MenuItem=item.serialize)
 
 
 if __name__ == '__main__':
