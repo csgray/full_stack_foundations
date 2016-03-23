@@ -2,10 +2,11 @@
 <html lang="en-US">
 <head>
     <title>Restaurants</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>Restaurants</h1>
+<h1>Restaurants</h1><hr>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -18,7 +19,7 @@
 
 {% for r in restaurants %}
 
-    <a href="{{ url_for('show_menu', restaurant_id=r.id) }}">{{ r.name }}</a><br>
+    <h2><a href="{{ url_for('show_menu', restaurant_id=r.id) }}">{{ r.name }}</a></h2>
     <a href="{{ url_for('edit_restaurant', restaurant_id=r.id) }}">Edit</a> &#x7C;
     <a href="{{ url_for('delete_restaurant', restaurant_id=r.id) }}">Delete</a>
     <br><br>
@@ -28,9 +29,7 @@
 
 {% endfor %}
 
-<br>
-
-<a href="{{ url_for('new_restaurant') }}">Create a new restaurant</a>
+<h2><a href="{{ url_for('new_restaurant') }}">Create a new restaurant</a></h2>
 
 </body>
 </html>

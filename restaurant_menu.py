@@ -38,7 +38,7 @@ def edit_restaurant(restaurant_id):
         restaurant.name = request.form['name']
         session.add(restaurant)
         session.commit()
-        flash("Restaurant name updated!")
+        flash("Restaurant successfully edited!")
         return redirect(url_for('show_restaurant'))
     else:
         return render_template('edit_restaurant.html', restaurant=restaurant)
@@ -51,7 +51,7 @@ def delete_restaurant(restaurant_id):
         if request.form['confirmation'] == "Yes":
             session.delete(restaurant)
             session.commit()
-            flash("Restaurant deleted!")
+            flash("Restaurant successfully deleted!")
             return redirect(url_for('show_restaurant'))
         if request.form['confirmation'] == "No":
             flash("Deletion cancelled!")
@@ -76,7 +76,7 @@ def new_menu_item(restaurant_id):
                             description=request.form['description'], restaurant_id=restaurant.id)
         session.add(new_item)
         session.commit()
-        flash("New menu item created!")
+        flash("Menu item created!")
         return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('new_menu_item.html', restaurant=restaurant)
@@ -93,7 +93,7 @@ def edit_menu_item(restaurant_id, menu_id):
         item.description=request.form['description']
         session.add(item)
         session.commit()
-        flash("Menu item updated!")
+        flash("Menu item successfully edited!")
         return redirect(url_for('show_menu', restaurant_id=restaurant.id))
     else:
         return render_template('edit_menu_item.html', restaurant=restaurant, item=item)
@@ -107,7 +107,7 @@ def delete_menu_item(restaurant_id, menu_id):
         if request.form['confirmation'] == "Yes":
             session.delete(item)
             session.commit()
-            flash("Menu item deleted!")
+            flash("Menu item successfully deleted!")
             return redirect(url_for('show_menu', restaurant_id=restaurant.id))
         if request.form['confirmation'] == "No":
             flash("Deletion cancelled!")
